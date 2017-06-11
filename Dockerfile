@@ -1,15 +1,17 @@
-FROM webitel/freeswitch-base:vanilla
-MAINTAINER Jovany Leandro G.C <dirindesa@neurotec.co>
+FROM debian:jessie
+LABEL maintainer "Jovany Leandro G.C <dirindesa@neurotec.co>"
 
-RUN apt-get update && apt-get install -fy python
-ADD https://github.com/plivo/plivoframework/raw/master/scripts/plivo_install.sh /plivo_install.sh
+ENV TERM dumb
+
+RUN apt-get update && apt-get install -fy python python-pip python-setuptools python-dev libev-dev python-virtualenv
+RUN apt-get install -fy redis-server
+
+ADD https://github.com/Neurotec/plivoframework/raw/master/scripts/plivo_install.sh /plivo_install.sh
 RUN bash /plivo_install.sh /plivo
-COPY conf/default.conf /plivo/etc/plivo/default.conf
 
-COPY docker-entrypoint.d/plivoframework.sh /docker-entrypoint.d/plivoframework.sh
+COPY docker-entrypoint.d/plivoframework.sh /docker-entrypoint.sh
 
-RUN mkdir -p /var/cache/freeswitch && chmod 777 /var/cache/freeswitch
+EXPOSE 8088
+EXPOSE 8084
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-CMD ["freeswitch"]

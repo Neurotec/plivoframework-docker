@@ -1,16 +1,20 @@
 # plivoframework-docker
-Dockerized Plivoframework runs with freeswitch
 
+Dockerized Plivoframework 
+
+``example``
 ~~~bash
- #docker run --privileged=true -d -v $PWD/pbxs/myplivonodecfg/:/etc/freeswitch --name myplivonode -ti neurotec/plivoframework-node
+ $docker run --net=voip --ip 10.10.0.10 --name myplivonode -ti neurotec/plivoframework-node
 ~~~
 
-with the option **-v** can customize freeswitch configurations.
+with the option **-e** can customize plivo vars on configurations files.
 
 ## OPTIONS
-can customize plivo, with environment vars 
+
+can customize plivo, with environment vars, example:
 
  -e ALLOWED_IPS="7.5.5.5"
  -e AUTH_TOKEN="mytoken"
  -e AUTH_ID="myid"
  -e SECRET_KEY="mysecret"
+ -e <KEY>="<NEW VALUE>"
